@@ -1,57 +1,125 @@
-# El Universo de las Preguntas
+# El Universo de las Preguntas 🌌
 
-Sitio editorial interactivo sobre didáctica de las ciencias naturales: seis capítulos, un cuaderno del explorador y un **laboratorio de simuladores de física** en una subpágina propia (`#/simuladores`).
+Proyecto web modularizado a partir del documento original de divulgación y didáctica de la física: *"El Universo de las Preguntas: ¿Cómo enseñar física sin matar la curiosidad?"*.
 
-Construido con React + Vite + Tailwind CSS + Framer Motion. Se puede publicar como sitio estático o dentro de Streamlit.
+Incluye un sitio editorial completo interactivo, un cuaderno de notas dinámico, soporte directo para **Streamlit**, y una **subpágina dedicada con 12 simuladores de física fluidos y realistas** desarrollados con HTML5 Canvas y física continua (`requestAnimationFrame`).
 
-## Estructura
+---
+
+## 📁 Estructura del Proyecto
 
 ```
-├── index.html                 Entrada de Vite (fuentes, metadatos)
-├── src/
-│   ├── main.jsx · App.jsx     Arranque y composición (barra de progreso, navegación, cuaderno)
-│   ├── styles/editorial.css   Sistema de diseño (tipografía, tarjetas, identidades visuales)
-│   ├── assets/                Imágenes (registro del caramelo escaso)
-│   ├── pages/                 HomePage (la historia) · SimulatorsPage (laboratorio)
-│   ├── sections/              Portada, Capítulos I–VI y cierre
-│   ├── components/            Navbar, NotebookPanel, SectionTitle, FAQItem, EditorialPullQuote…
-│   ├── hooks/                 useNotes (localStorage), useRoute (enrutado por hash)
-│   └── simulations/
-│       ├── core/              SimCanvas (canvas + bucle rAF), ui (sliders, lecturas), draw (utilidades)
-│       ├── registry.js        Catálogo de simuladores (agrega aquí uno nuevo)
-│       └── *Simulation.jsx    12 simuladores
-├── streamlit_app.py           Envoltorio para Streamlit
-├── streamlit_static/          Build de un solo archivo que usa Streamlit (se versiona)
-├── requirements.txt           Dependencias de Streamlit
-└── .streamlit/config.toml     Tema oscuro
+el-universo-de-las-preguntas1/
+├── streamlit_app.py                # Wrapper para ejecutar directamente en Streamlit Cloud o local
+├── streamlit_static/
+│   └── index.html                  # Bundle autocontenido generado por vite-plugin-singlefile
+├── requirements.txt                # Dependencias Python (streamlit)
+├── .streamlit/
+│   └── config.toml                 # Configuración de tema oscuro (#07111F)
+├── index.html                      # Entrada HTML para desarrollo Vite
+├── vite.config.js                  # Configuración dual (modo dist estándar y modo streamlit singlefile)
+├── tailwind.config.js              # Configuración de Tailwind CSS
+├── postcss.config.js
+├── package.json
+└── src/
+    ├── main.jsx                    # Punto de entrada React
+    ├── App.jsx                     # Enrutador por hash (#/ y #/simuladores) y drawer del cuaderno
+    ├── index.css                   # Tailwind + variables de diseño
+    ├── styles/
+    │   └── editorial.css           # Estilos tipográficos y estéticos extraídos
+    ├── assets/
+    │   └── caramelo-escaso.jpg     # Imagen extraída del Base64 original (109 KB)
+    ├── hooks/
+    │   ├── useNotes.js             # Lógica de notas con persistencia en localStorage
+    │   └── useRoute.js             # Enrutamiento hash compatible con iframes de Streamlit
+    ├── components/
+    │   ├── Navbar.jsx              # Barra de navegación con enlace directo a simuladores
+    │   ├── NotebookPanel.jsx       # Panel de notas y reflexiones del usuario
+    │   ├── SectionTitle.jsx
+    │   ├── EditorialPullQuote.jsx
+    │   ├── FAQItem.jsx
+    │   └── InteractivePoint.jsx
+    ├── sections/                   # Modularización de cada capítulo del libro/guía
+    │   ├── HeroSection.jsx
+    │   ├── Chapter1.jsx            # Las cuatro trampas de la enseñanza tradicional
+    │   ├── Chapter2.jsx            # El método de las preguntas generativas
+    │   ├── Chapter3.jsx            # Laboratorio de Física Viva (con CTA a subpágina)
+    │   ├── Chapter4.jsx            # Diez experimentos que transforman el aula
+    │   ├── Chapter5.jsx            # La evaluación como brújula, no como martillo
+    │   ├── Chapter6.jsx            # Preguntas frecuentes del docente
+    │   └── ClosingSection.jsx       # Conclusión y manifiesto
+    ├── pages/
+    │   ├── HomePage.jsx            # Página editorial principal
+    │   └── SimulatorsPage.jsx      # Subpágina dedicada a la suite de simuladores
+    └── simulations/                # Motores de física desacoplados de React con Canvas fluido
+        ├── core/
+        │   ├── SimCanvas.jsx       # Canvas con sub-stepping y auto-pause offscreen
+        │   ├── draw.js             # Renderizado: vectores, resplandores, partículas, estelas
+        │   └── ui.jsx              # Controles throttled a 60fps (sliders, botones, presets)
+        ├── registry.js             # Registro, filtros por categoría y metadatos de los 12 simuladores
+        ├── ProjectileSimulation.jsx     # Tiro parabólico con vectores vx/vy
+        ├── InclinedPlaneSimulation.jsx   # Plano inclinado con fricción estática/dinámica
+        ├── FreeFallSimulation.jsx        # Caída libre (esfera vs pluma en vacío / aire)
+        ├── PendulumSimulation.jsx        # Péndulo simple (integración RK4, espacio fásico)
+        ├── SpringSimulation.jsx          # Oscilador armónico con amortiguamiento
+        ├── CollisionSimulation.jsx       # Choques 1D elásticos e inelásticos
+        ├── OrbitSimulation.jsx           # Órbitas gravitatorias con vector interactivo
+        ├── EvaporationSimulation.jsx     # Evaporación molecular y viento
+        ├── WaveSuperpositionSimulation.jsx # Superposición de ondas y pulsos
+        ├── RippleTankSimulation.jsx      # Cubeta de ondas 2D e interferencia
+        ├── OhmCircuitSimulation.jsx      # Ley de Ohm, circuitos serie/paralelo y calor Joule
+        └── RefractionSimulation.jsx      # Refracción, reflexión interna total y Ley de Snell
 ```
 
-## Simuladores
+---
 
-Tiro parabólico · Plano inclinado con rozamiento · Caída libre y resistencia del aire · Péndulo simple · Masa-resorte · Colisiones 1D · Órbitas y gravedad · Superposición de ondas · Cubeta de ondas (interferencia) · Refracción de la luz (Snell) · Ley de Ohm (serie/paralelo) · Evaporación.
+## 🚀 Despliegue en Streamlit Cloud
 
-**Animaciones fluidas:** cada simulador dibuja en `<canvas>` con un bucle `requestAnimationFrame` que integra la física con el tiempo real transcurrido (pasos pequeños, RK4/leapfrog), en lugar de avanzar un paso fijo por temporizador. Las estelas, partículas y vectores se actualizan en cada fotograma y el bucle se pausa cuando el simulador no está a la vista.
+El proyecto está 100% preparado para ser subido directamente a **Streamlit Cloud**:
 
-## Desarrollo local
+1. Sube este repositorio a tu cuenta de GitHub (por ejemplo: `https://github.com/TU_USUARIO/el-universo-de-las-preguntas1`).
+2. Entra en [share.streamlit.io](https://share.streamlit.io).
+3. Selecciona tu repositorio `el-universo-de-las-preguntas1`, branch `main`.
+4. Especifica el archivo principal: `streamlit_app.py`.
+5. ¡Listo! Streamlit levantará la aplicación web con la página completa y la subpágina interactiva de simuladores sin dependencias externas pesadas.
 
+---
+
+## 💻 Ejecución Local
+
+### Opción 1: Desarrollo Web Frontend (Vite)
+Para modificar la interfaz o los simuladores con recarga en vivo (Hot Module Reload):
 ```bash
 npm install
-npm run dev            # http://localhost:5173
-npm run build          # sitio estático en dist/
+npm run dev
+```
+Abre en tu navegador: `http://localhost:5173/`
+
+Para reconstruir el bundle estático de Streamlit:
+```bash
+npm run build:streamlit
 ```
 
-## Despliegue en Streamlit
+### Opción 2: Servidor Streamlit
+```bash
+pip install -r requirements.txt
+streamlit run streamlit_app.py
+```
+Abre en tu navegador: `http://localhost:8501/`
 
-1. Genera el bundle (solo cuando cambies el código de `src/`):
-   ```bash
-   npm run build:streamlit
-   ```
-   Esto crea `streamlit_static/index.html` (HTML + JS + CSS + imagen en un solo archivo). **Debe subirse al repositorio.**
-2. Prueba en local:
-   ```bash
-   pip install -r requirements.txt
-   streamlit run streamlit_app.py
-   ```
-3. En [share.streamlit.io](https://share.streamlit.io) crea una app nueva apuntando a este repositorio, rama `main` y archivo principal `streamlit_app.py`.
+---
 
-> La página se incrusta en un iframe de Streamlit. Las fuentes de Google se cargan desde internet.
+## 📤 Subir a tu cuenta de GitHub
+
+Para vincular este repositorio con tu usuario de GitHub:
+
+```bash
+# 1. Inicia sesión en GitHub CLI (si lo tienes instalado):
+gh auth login
+
+# 2. O configura la URL de tu repositorio remoto directamente:
+git remote set-url origin https://github.com/TU_USUARIO/el-universo-de-las-preguntas1.git
+
+# 3. Empuja los cambios:
+git push -u origin main
+```
