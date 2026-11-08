@@ -1,0 +1,277 @@
+/* Sistema de diseño editorial (extraído de la versión TSX original) */
+:root {
+  --bg-night: #07111F;
+  --bg-space: #102A43;
+  --bg-space-deep: #0B1D30;
+  --accent-cyan: #4DEEEA;
+  --accent-violet: #9B72CF;
+  --accent-gold: #FFD166;
+  --text-star: #F2F5F7;
+  --text-body-color: #CBD5E1;
+  --text-muted: #94A3B8;
+
+  --font-display: 'Space Grotesk', 'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif;
+  --font-sans: 'Inter', 'Helvetica Neue', Arial, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --fs-hero: clamp(2.4rem, 5vw + 0.8rem, 4.5rem);
+  --fs-h1: clamp(1.95rem, 3.2vw + 0.6rem, 3.15rem);
+  --fs-h2: clamp(1.35rem, 1.9vw + 0.4rem, 1.85rem);
+  --fs-h3: clamp(1.125rem, 1.2vw + 0.35rem, 1.35rem);
+  --fs-lead: clamp(1.1rem, 1vw + 0.45rem, 1.32rem);
+  --fs-quote: clamp(1.2rem, 1.5vw + 0.45rem, 1.6rem);
+  --fs-body: 1.0625rem;
+  --fs-sm: 0.9375rem;
+  --fs-xs: 0.775rem;
+  --fs-caption: 0.8125rem;
+  --fs-button: 0.95rem;
+  --fs-data: clamp(1.6rem, 2.4vw + 0.6rem, 2.4rem);
+  --measure-read: 66ch;
+  --measure-narrow: 50ch;
+  --accent-glow-cyan: rgba(77, 238, 234, 0.35);
+  --accent-glow-violet: rgba(155, 114, 207, 0.35);
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-sans);
+  background-color: var(--bg-night);
+  color: var(--text-star);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body, .editorial-root {
+  font-family: var(--font-sans) !important;
+  background-color: var(--bg-night);
+  color: var(--text-star);
+  line-height: 1.7;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display) !important;
+  letter-spacing: -0.025em;
+  line-height: 1.16;
+}
+
+code, pre, .font-mono, .data-tag {
+  font-family: var(--font-mono) !important;
+}
+
+/* Controles de formulario: heredan la tipografía del sistema editorial */
+button, input, textarea, select {
+  font-family: var(--font-sans);
+  font-feature-settings: 'cv11', 'ss01';
+  color: inherit;
+}
+
+/* Mejor ritmo de lectura: títulos equilibrados, párrafos sin huérfanas */
+h1, h2, h3, h4 { text-wrap: balance; }
+p, li, blockquote { text-wrap: pretty; }
+
+/* Accesibilidad: foco visible en la paleta del proyecto */
+:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+}
+
+/* Escala Tipográfica Editorial */
+.type-hero {
+  font-family: var(--font-display) !important;
+  font-size: var(--fs-hero);
+  font-weight: 700;
+  line-height: 1.06;
+  letter-spacing: -0.035em;
+}
+
+.type-chapter-title {
+  font-family: var(--font-display) !important;
+  font-size: var(--fs-h1);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  color: var(--text-star);
+}
+
+.type-section-subtitle {
+  font-family: var(--font-display) !important;
+  font-size: var(--fs-h2);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+}
+
+.type-card-title {
+  font-family: var(--font-display) !important;
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+}
+
+.type-lead {
+  font-family: var(--font-sans) !important;
+  font-size: var(--fs-lead);
+  font-weight: 400;
+  line-height: 1.7;
+  color: #E2E8F0;
+  max-width: 66ch;
+}
+
+.type-body {
+  font-family: var(--font-sans) !important;
+  font-size: var(--fs-body);
+  font-weight: 400;
+  line-height: 1.78;
+  color: var(--text-body-color);
+  max-width: 65ch;
+}
+
+.type-label {
+  font-family: var(--font-mono) !important;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.type-quote {
+  font-family: var(--font-display) !important;
+  font-size: var(--fs-quote);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+}
+
+.type-caption {
+  font-family: var(--font-sans) !important;
+  font-size: var(--fs-caption);
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.type-button {
+  font-family: var(--font-display) !important;
+  font-size: var(--fs-button);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.type-data {
+  font-family: var(--font-mono) !important;
+  font-size: var(--fs-data);
+  font-weight: 500;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-cyan);
+}
+
+/* Frase destacada dentro de un párrafo: subrayado de luz */
+.type-highlight {
+  background-image: linear-gradient(transparent 62%, rgba(255, 209, 102, 0.22) 62%);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.reading-column { max-width: var(--measure-read); }
+.reading-narrow { max-width: var(--measure-narrow); }
+
+/* Superficies y Tarjetas Editoriales */
+.glass-card {
+  background: linear-gradient(145deg, rgba(16, 42, 67, 0.58) 0%, rgba(7, 17, 31, 0.84) 100%);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(77, 238, 234, 0.16);
+  border-radius: 1.25rem;
+  box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.6);
+}
+
+.editorial-intro-card {
+  background: linear-gradient(135deg, rgba(16, 42, 67, 0.45) 0%, rgba(7, 17, 31, 0.75) 100%);
+  border-left: 3px solid var(--accent-cyan);
+  border-top: 1px solid rgba(242, 245, 247, 0.08);
+  border-right: 1px solid rgba(242, 245, 247, 0.08);
+  border-bottom: 1px solid rgba(242, 245, 247, 0.08);
+  border-radius: 0 1rem 1rem 0;
+}
+
+.scientific-explanation-box {
+  background: radial-gradient(circle at top right, rgba(77, 238, 234, 0.09), transparent 65%), rgba(7, 17, 31, 0.9);
+  border: 1px solid rgba(77, 238, 234, 0.28);
+  border-radius: 1rem;
+}
+
+.personal-log-card {
+  background: linear-gradient(160deg, rgba(255, 209, 102, 0.06) 0%, rgba(16, 42, 67, 0.5) 100%);
+  border: 1px solid rgba(255, 209, 102, 0.25);
+  border-radius: 1rem;
+}
+
+.simulation-frame {
+  background: linear-gradient(180deg, rgba(11, 29, 48, 0.85) 0%, rgba(7, 17, 31, 0.95) 100%);
+  border: 1px solid rgba(77, 238, 234, 0.22);
+  border-radius: 1.25rem;
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.06), 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+}
+
+.cosmic-grid-bg {
+  background-image: 
+    linear-gradient(to right, rgba(77, 238, 234, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(77, 238, 234, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Identidad visual por tipo de contenido */
+
+/* Introducción: halo cian suave detrás del bloque */
+.identity-intro { box-shadow: 0 0 60px -22px var(--accent-glow-cyan); }
+
+/* Capítulos: línea de luz superior y espaciado de apertura */
+.identity-chapter { position: relative; padding-top: 1.5rem; }
+.identity-chapter::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 96px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-cyan), transparent);
+  box-shadow: 0 0 14px var(--accent-cyan);
+}
+
+/* Preguntas: filete violeta, sensación de cuestión abierta */
+.identity-question {
+  border-left: 2px solid var(--accent-violet);
+  padding-left: 1.25rem;
+}
+
+/* Explicaciones científicas: panel técnico cian */
+.identity-science {
+  position: relative;
+  background:
+    radial-gradient(circle at top right, rgba(77, 238, 234, 0.10), transparent 60%),
+    rgba(7, 17, 31, 0.9);
+  border: 1px solid rgba(77, 238, 234, 0.28);
+  border-radius: 1rem;
+  box-shadow: 0 0 40px -18px var(--accent-glow-cyan);
+}
+
+/* Experiencias personales: tono cálido, borde discontinuo (como un cuaderno) */
+.identity-personal {
+  background: linear-gradient(160deg, rgba(255, 209, 102, 0.07) 0%, rgba(16, 42, 67, 0.5) 100%);
+  border: 1px dashed rgba(255, 209, 102, 0.35);
+  border-radius: 1rem;
+}
+
+.orbit-stage { --orbit-x: 1; --orbit-y: 1; --orbit-s: 1; }
+@media (max-width: 640px) {
+  .orbit-stage { --orbit-x: 0.5; --orbit-y: 0.62; --orbit-s: 0.7; }
+}
+
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
